@@ -1,12 +1,8 @@
 """Utilities for conducting a descriptive data analysis"""
-
 import matplotlib.pyplot as plt
 import pandas as pd
 from data import ProjectData
 from dataclasses import dataclass
-
-heart_predict_path = "data/heart_failure_clinical_records.csv"
-heart_predict_data = ProjectData(heart_predict_path).df
 
 MEANING_BINARY_COLUMNS = {
     "anaemia": {0: "No anaemia", 1: "anaemia"},
@@ -35,8 +31,9 @@ class BooleanStatistics:
 
 class DataFrameAnalyzer:
     def __init__(self, 
-                 df: pd.DataFrame = heart_predict_data) -> None:
-        self.df = df
+                 path_to_data: str = "data/heart_failure_clinical_records.csv") -> None:
+        project_data = ProjectData(path_to_data)
+        self.df = project_data.df
 
     def calculate_boolean_statistics(self, boolean_column: str) -> BooleanStatistics:
         """
@@ -57,6 +54,7 @@ class DataFrameAnalyzer:
         return BooleanStatistics(name=boolean_column,
                                  zero=zero_val,
                                  one=one_val)
+
 
     def calculate_discrete_statistics(self, discrete_column: str) -> DiscreteStatistics:
         """
@@ -82,6 +80,7 @@ class DataFrameAnalyzer:
                                   mean=mean_val,
                                   standard_dev=standard_dev_val)
     
+
     def create_conditional_dataset(self, 
                                    column: str, 
                                    num: int, 
@@ -140,7 +139,8 @@ class DataFrameAnalyzer:
         else:
             distribution = df[column].value_counts().to_dict()
             return distribution
-    
+
+
 def save_distribution_plot(distribution: dict, col_name: str) -> tuple:
     """
     Create and return a simple bar plot for a specific column
