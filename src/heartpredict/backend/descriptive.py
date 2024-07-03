@@ -119,7 +119,9 @@ class DataFrameAnalyzer:
         return df_cond
     
 
-    def save_variable_distribution(self, column: str) -> dict:
+    def save_variable_distribution(self, 
+                                   column: str,
+                                   df: pd.DataFrame = None) -> dict:
         """
         Save unique variable expressions of a DataFrame column in a dict
 
@@ -130,7 +132,11 @@ class DataFrameAnalyzer:
         Returns:
             Dictionary counting the variable expressions
         """
-        df = self.df
+        # Check which DataFrame to use
+        if df is None:
+            df = self.df
+        
+        # Check if the column is boolean or discrete
         condition = set(df[column].unique()) == {0,1}
         if condition:
             interpreted_distribution = {}
