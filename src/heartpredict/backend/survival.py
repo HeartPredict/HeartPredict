@@ -3,6 +3,7 @@ from heartpredict.backend.ml import load_model
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 from functools import lru_cache
 from pathlib import Path
 from lifelines import KaplanMeierFitter
@@ -11,7 +12,7 @@ from lifelines import KaplanMeierFitter
 class SurvivalBackend:
 
     def __init__(self, ml_data: MLData) -> None:
-        self.df = ml_data.project_data.df
+        self.df = pd.DataFrame(ml_data.project_data.df)
         self.feature_matrix = ml_data.scaled_feature_matrix
 
     def create_kaplan_meier_plot_for(self,
