@@ -64,3 +64,11 @@ def test_create_conditional_dataset():
                                                              rel="<=")
 
     assert expected_result["col1"].equals(actual_result["col1"])
+
+
+def test_save_variable_distribution():
+    """
+    Test the save_variable_distribution function
+    from the DataFrameAnalyzer object
+    """
+    pass
