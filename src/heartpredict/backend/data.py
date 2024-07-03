@@ -70,8 +70,8 @@ class MLData:
             test_size=self.test_size,
             random_state=self.random_seed,
         )
-        x_train, x_valid = MLData._scale_input_features(unscaled_x_train,
-                                                        unscaled_x_valid)
+        x_train, x_valid = MLData._scale_train_valid_input_features(unscaled_x_train,
+                                                                    unscaled_x_valid)
         return NumpyMatrix(x_train, y_train), NumpyMatrix(x_valid, y_valid)
 
     @staticmethod
