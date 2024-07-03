@@ -1,7 +1,7 @@
 """Utilities for conducting a descriptive data analysis"""
 import matplotlib.pyplot as plt
 import pandas as pd
-from data import ProjectData
+from heartpredict.backend.data import ProjectData
 from dataclasses import dataclass
 
 MEANING_BINARY_COLUMNS = {
@@ -181,8 +181,6 @@ def save_distribution_plot(distribution: dict, col_name: str) -> tuple:
 def show_plot(plot_variable: tuple) -> None:
     """
     Visualize a given plot variable
-
-
     Args:
         plot_variable: Tuple for the plot variables (fig, ax)
 

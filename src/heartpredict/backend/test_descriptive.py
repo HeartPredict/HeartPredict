@@ -1,4 +1,4 @@
-from descriptive import DataFrameAnalyzer, DiscreteStatistics, BooleanStatistics
+from heartpredict.backend.descriptive import DataFrameAnalyzer, DiscreteStatistics, BooleanStatistics
 import pandas as pd
 
 
