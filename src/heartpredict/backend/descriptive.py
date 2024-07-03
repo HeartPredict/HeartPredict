@@ -82,9 +82,10 @@ class DataFrameAnalyzer:
     
 
     def create_conditional_dataset(self, 
-                                   column: str, 
+                                   col: str, 
                                    num: int, 
-                                   rel: str) -> pd.DataFrame:
+                                   rel: str,
+                                   df: pd.DataFrame = None) -> pd.DataFrame:
         """
         Create a filtered dataset, e.g. only patients over 60
 
@@ -97,18 +98,21 @@ class DataFrameAnalyzer:
         Returns:
             DataFrame of filtered dataset
         """
+        # Check which DataFrame to use
+        if df is None:
+            df = self.df
+        
         # Check the condition's relation
-        df = self.df
         if rel == "==":
-            cond = df[column] == num
+            cond = df[col] == num
         elif rel == "<":
-            cond = df[column] < num
+            cond = df[col] < num
         elif rel == ">":
-            cond = df[column] > num
+            cond = df[col] > num
         elif rel == "<=":
-            cond = df[column] <= num
+            cond = df[col] <= num
         elif rel == ">=":
-            cond = df[column] >= num
+            cond = df[col] >= num
 
         # Return conditioned dataset
         df_cond = df[cond].copy()
