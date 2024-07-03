@@ -60,15 +60,15 @@ class SurvivalBackend:
         plt.legend(title="Risk Group")
         plt.grid(True)
 
-        output_dir = Path("results/survival")
-        output_dir.mkdir(parents=True, exist_ok=True)
         if show_plot:
             plt.show()
         else:
+            output_dir = Path("results/survival")
+            output_dir.mkdir(parents=True, exist_ok=True)
             plt.savefig(output_dir / "kaplan_meier_plot.png")
             plt.close()
-        print(f"Kaplan-Meier plot saved to "
-              f"{output_dir / 'kaplan_meier_plot.png'}")
+            print(f"Kaplan-Meier plot saved to "
+                  f"{output_dir / 'kaplan_meier_plot.png'}")
 
 
 @lru_cache(typed=True)
