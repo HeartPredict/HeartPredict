@@ -3,7 +3,6 @@ from heartpredict.backend.ml import load_model
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from functools import lru_cache
 from pathlib import Path
 from lifelines import KaplanMeierFitter
