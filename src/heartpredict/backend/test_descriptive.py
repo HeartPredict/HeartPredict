@@ -71,4 +71,12 @@ def test_save_variable_distribution():
     Test the save_variable_distribution function
     from the DataFrameAnalyzer object
     """
-    pass
+    expected_bool = {"Not smoking": 3441,
+                     "Is smoking":1559
+                     }
+    
+    actual_object = DataFrameAnalyzer()
+    actual_bool = actual_object.save_variable_distribution(column="smoking")
+
+    assert expected_bool["Is smoking"] == actual_bool["Is smoking"]
+    assert expected_bool["Not smoking"] == actual_bool["Not smoking"]
