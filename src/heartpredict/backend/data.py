@@ -75,8 +75,29 @@ class MLData:
         return NumpyMatrix(x_train, y_train), NumpyMatrix(x_valid, y_valid)
 
     @staticmethod
-    def _scale_input_features(
-            x_train: np.ndarray, x_valid: np.ndarray | None = None
+    def _scale_input_features(x: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        """
+        Scale input features.
+        Args:
+            x: Input features.
+
+        Returns:
+            Scaled input features.
+        """
+        scaler = StandardScaler()
+        x = scaler.fit_transform(x)
+
+        # Save the fitted scaler needed for prediction of new data.
+        output_dir = Path("results/scalers")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        scaler_file = output_dir / "used_scaler.joblib"
+        joblib.dump(scaler, scaler_file, compress=False)
+
+        return x, scaler
+
+    @staticmethod
+    def _scale_train_valid_input_features(
+            x_train: np.ndarray, x_valid: np.ndarray
     ) -> tuple[np.ndarray, np.ndarray]:
         """
         Scale input features.
@@ -87,15 +108,6 @@ class MLData:
         Returns:
             Scaled training and validation input features.
         """
-        scaler = StandardScaler()
-        x_train = scaler.fit_transform(x_train)
-
-        # Save the fitted scaler needed for prediction of new data.
-        output_dir = Path("results/scalers")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        scaler_file = output_dir / "used_scaler.joblib"
-        joblib.dump(scaler, scaler_file, compress=False)
-
-        if x_valid is not None:
-            x_valid = scaler.transform(x_valid)  # type: ignore
+        x_train, scaler = MLData._scale_input_features(x_train, x_valid)
+        x_valid = scaler.transform(x_valid)  # type: ignore
         return x_train, x_valid
