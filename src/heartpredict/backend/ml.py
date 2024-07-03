@@ -223,7 +223,7 @@ class MLBackend:
         scores = [res.score for res in training_results]
         best_performance = eval_metric.optimum(scores)
         print(
-            f"Best Model: {type(training_results[best_performance].model).__name__}"
+            f"Best Model: {type(training_results[best_performance].model).__name__} "
             f"with {eval_metric.name}: "
             f"{training_results[best_performance].score}"
         )
