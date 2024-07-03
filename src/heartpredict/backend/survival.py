@@ -14,7 +14,10 @@ class SurvivalBackend:
         self.df = ml_data.project_data.df
         self.feature_matrix = ml_data.scaled_feature_matrix
 
-    def create_kaplan_meier_plot_for(self, path_to_regressor: Path, show_plot: bool = False) -> None:
+    def create_kaplan_meier_plot_for(self,
+                                     path_to_regressor: Path,
+                                     show_plot: bool = False
+                                     ) -> None:
         """
         Create a Kaplan-Meier plot for specific regressor,
         stratified by predicted risk groups.
