@@ -75,14 +75,14 @@ class MLData:
         return NumpyMatrix(x_train, y_train), NumpyMatrix(x_valid, y_valid)
 
     @staticmethod
-    def _scale_input_features(x: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def _scale_input_features(x: np.ndarray) -> tuple[np.ndarray, StandardScaler]:
         """
         Scale input features.
         Args:
             x: Input features.
 
         Returns:
-            Scaled input features.
+            Scaled input features and the scaler used for scaling.
         """
         scaler = StandardScaler()
         x = scaler.fit_transform(x)
@@ -108,6 +108,6 @@ class MLData:
         Returns:
             Scaled training and validation input features.
         """
-        x_train, scaler = MLData._scale_input_features(x_train, x_valid)
+        x_train, scaler = MLData._scale_input_features(x_train)
         x_valid = scaler.transform(x_valid)  # type: ignore
         return x_train, x_valid
