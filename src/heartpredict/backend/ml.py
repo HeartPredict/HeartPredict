@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import joblib
+import logging
 import numpy as np
 from heartpredict.backend.data import MLData
 from sklearn.base import BaseEstimator
@@ -89,6 +90,8 @@ class MLBackend:
         ]
 
         eval_metric = EvaluationMetric("Accuracy", accuracy_score, np.argmax)
+
+        logging.debug("Start training different classifiers...")
         return self._train_models(classifiers, eval_metric)
 
     def regression_for_different_regressors(self) -> OptimalModel:
@@ -120,6 +123,8 @@ class MLBackend:
             root_mean_squared_error,
             np.argmin
         )
+
+        logging.debug("Start training different regressors...")
         return self._train_models(regressors, eval_metric)
 
     def _k_fold_cross_validation(
@@ -135,9 +140,13 @@ class MLBackend:
         Returns:
             Mean accuracy of the model.
         """
+        logging.debug(f"Start k-fold cross validation for "
+                      f"{hyperparam_name}={value}...")
         if hyperparam_name:
             model.set_params(**{hyperparam_name: value})
         accuracy = cross_val_score(model, self.data.train.x, self.data.train.y)
+        logging.debug(f"Hyperparameter: {hyperparam_name}={value}, "
+                      f"Accuracy: {accuracy.mean()}")
         return accuracy.mean()
 
     def _train_w_best_hyperparam(self, model: ModelWithParams) -> TrainingResult:
@@ -149,6 +158,8 @@ class MLBackend:
         Returns:
             TrainingResult: Best performing model with the best hyperparameter.
         """
+        logging.debug(f"Start training model {type(model.model).__name__} for"
+                      f" differen hyperparameter values...")
         best_hyperparam_value = None
         if model.hyperparam_name and model.values is not None:
             scores = [
@@ -163,6 +174,8 @@ class MLBackend:
             )
 
         model.model.fit(self.data.train.x, self.data.train.y)
+        logging.debug(f"Model {type(model.model).__name__} performed best with "
+                      f"hyperparameter value: {best_hyperparam_value}")
         return TrainingResult(
             model.model,
             type(model.model).__name__,
@@ -185,7 +198,7 @@ class MLBackend:
 
         y_pred = training_result.model.predict(self.data.valid.x)  # type: ignore
         score = eval_metric.function(self.data.valid.y, y_pred)
-        print(
+        logging.info(
             f"Best Model for {training_result.model_name}"
             f"with {training_result.hyperparam_name}"
             f"={training_result.best_hyperparam_value}, "
@@ -222,7 +235,7 @@ class MLBackend:
 
         scores = [res.score for res in training_results]
         best_performance = eval_metric.optimum(scores)
-        print(
+        logging.info(
             f"Best Model: {type(training_results[best_performance].model).__name__} "
             f"with {eval_metric.name}: "
             f"{training_results[best_performance].score}"

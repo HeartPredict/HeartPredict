@@ -1,6 +1,7 @@
 from heartpredict.backend.data import MLData
 from heartpredict.backend.ml import load_model
 
+import logging
 import pandas as pd
 import matplotlib.pyplot as plt
 from functools import lru_cache
@@ -51,6 +52,9 @@ class SurvivalBackend:
         for group, subset in self.df.groupby('risk_group', observed=True):
             time = subset[days_column]
             event_observed = subset[death_event_column].astype(bool)
+
+            logging.debug(f"Fitting Kaplan-Meier model for group: {group}")
+
             kmf.fit(durations=time, event_observed=event_observed, label=group)
             kmf.plot_survival_function()
 
@@ -67,8 +71,9 @@ class SurvivalBackend:
             output_dir.mkdir(parents=True, exist_ok=True)
             plt.savefig(output_dir / "kaplan_meier_plot.png")
             plt.close()
-            print(f"Kaplan-Meier plot saved to "
-                  f"{output_dir / 'kaplan_meier_plot.png'}")
+            logging.info(
+                f"Kaplan-Meier plot saved to "
+                f"{output_dir / 'kaplan_meier_plot.png'}")
 
 
 @lru_cache(typed=True)

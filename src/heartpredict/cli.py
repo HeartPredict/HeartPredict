@@ -1,6 +1,8 @@
 import importlib.metadata
 from dataclasses import dataclass, field
 from enum import Enum
+
+import logging
 from logging import Logger, getLogger
 from pathlib import Path
 from typing import Optional
@@ -28,17 +30,28 @@ class State:
     # use root logger so we can simply use the modified one in other modules
     logger: Logger = field(default_factory=lambda: getLogger())
 
+
 app = typer.Typer(no_args_is_help=True)
 state = State()
 
 
 @app.callback()
 def set_path(
-    csv: str = "data/heart_failure_clinical_records.csv",
-    loglevel: LogLevel = LogLevel.INFO
-    ) -> None:
+        csv: str = "data/heart_failure_clinical_records.csv",
+        loglevel: LogLevel = LogLevel.INFO
+) -> None:
     state.csv = csv
-    state.logger.setLevel(loglevel)
+
+    if loglevel == LogLevel.DEBUG:
+        state.logger.setLevel(logging.DEBUG)
+    elif loglevel == LogLevel.INFO:
+        state.logger.setLevel(logging.INFO)
+    elif loglevel == LogLevel.WARNING:
+        state.logger.setLevel(logging.WARNING)
+    elif loglevel == LogLevel.ERROR:
+        state.logger.setLevel(logging.ERROR)
+    elif loglevel == LogLevel.CRITICAL:
+        state.logger.setLevel(logging.CRITICAL)
 
 
 @app.command()
@@ -54,7 +67,7 @@ def test() -> None:
 @app.command()
 def train_model_for_classification(
         seed: Annotated[int, typer.Option(help="Random seed for reproducibility.")] = 42
-    ) -> None:
+) -> None:
     project_data = ProjectData.build(Path(state.csv))
     data = MLData.build(project_data, 0.2, seed)
     backend = MLBackend(data)
@@ -64,7 +77,7 @@ def train_model_for_classification(
 @app.command()
 def train_model_for_regression(
         seed: Annotated[int, typer.Option(help="Random seed for reproducibility.")] = 42
-    ) -> None:
+) -> None:
     project_data = ProjectData.build(Path(state.csv))
     data = MLData.build(project_data, 0.2, seed)
     backend = MLBackend(data)
@@ -75,11 +88,11 @@ def train_model_for_regression(
 def create_kaplan_meier_plot(
         seed: Annotated[
             int, typer.Option(help="Random seed for reproducibility.")
-            ] = 42,
+        ] = 42,
         regressor: Annotated[
             Optional[str], typer.Option(help="Path to regressor model.")
-            ] = None,
-    ) -> None:
+        ] = None,
+) -> None:
     project_data = ProjectData.build(Path(state.csv))
     ml_data = MLData.build(project_data, 0.2, seed)
     survival_backend = SurvivalBackend(ml_data)
@@ -91,9 +104,9 @@ def create_kaplan_meier_plot(
 
 @app.command(name="cc")
 def single_correlation(
-        column: Annotated[Column, typer.Option()], 
+        column: Annotated[Column, typer.Option()],
         method: Annotated[CorrelationMethod, typer.Option()] = CorrelationMethod.PEARSON
-    ) -> None:
+) -> None:
     data = ProjectData.build(Path(state.csv))
     backend = CorrelationBackend.build(data)
     print(backend.get_column_correlation_to_death_event(column, method))
@@ -102,7 +115,7 @@ def single_correlation(
 @app.command(name="cm")
 def multiple_correlation(
         method: Annotated[CorrelationMethod, typer.Option()] = CorrelationMethod.PEARSON
-    ) -> None:
+) -> None:
     data = ProjectData.build(Path(state.csv))
     backend = CorrelationBackend.build(data)
     print(backend.get_correlation_matrix(method))
