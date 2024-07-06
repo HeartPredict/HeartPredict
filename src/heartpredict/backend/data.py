@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from enum import Enum
 from functools import lru_cache
 from pathlib import Path
 
@@ -7,6 +8,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from typing_extensions import Self
 
 
 @dataclass
@@ -15,16 +17,29 @@ class NumpyMatrix:
     y: np.ndarray
 
 
+class Column(str, Enum):
+    AGE = "age"
+    ANAEMIA = "anaemia"
+    CREATININE_PHOSPHOKINASE = "creatinine_phosphokinase"
+    DIABETES = "diabetes"
+    EJECTION_FRACTION = "ejection_fraction"
+    HIGH_BLOOD_PRESSURE = "high_blood_pressure"
+    PLATELETS = "platelets"
+    SERUM_CREATININE = "serum_creatinine"
+    SERUM_SODIUM = "serum_sodium"
+    SEX = "sex"
+    SMOKING = "smoking"
+    TIME = "time"
+    DEATH_EVENT = "DEATH_EVENT"
+
+
 class ProjectData:
-    def __init__(self,
-                 csv: Path = Path("data/heart_failure_clinical_records.csv")) -> None:
+    def __init__(self, csv: Path) -> None:
         self.df = pd.read_csv(csv)
 
     @classmethod
     @lru_cache
-    def build(
-            cls, csv: Path = Path("data/heart_failure_clinical_records.csv")
-    ):
+    def build(cls, csv: Path) -> Self:
         return cls(csv)
 
 
@@ -42,9 +57,8 @@ class MLData:
     @classmethod
     @lru_cache
     def build(
-            cls, project_data: ProjectData, test_size: float = 0.2,
-            random_seed: int = 42
-    ):
+            cls, project_data: ProjectData, test_size: float, random_seed: int
+    ) -> Self:
         return cls(project_data, test_size, random_seed)
 
     def _get_whole_dataset(self) -> NumpyMatrix:
