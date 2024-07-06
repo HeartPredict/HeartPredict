@@ -11,15 +11,19 @@ from lifelines import KaplanMeierFitter
 class SurvivalBackend:
 
     def __init__(self, ml_data: MLData) -> None:
-        self.df = ml_data.project_data.df
+        self.df = pd.DataFrame(ml_data.project_data.df)
         self.feature_matrix = ml_data.scaled_feature_matrix
 
-    def create_kaplan_meier_plot_for(self, path_to_regressor: Path) -> None:
+    def create_kaplan_meier_plot_for(self,
+                                     path_to_regressor: Path,
+                                     show_plot: bool = False
+                                     ) -> None:
         """
         Create a Kaplan-Meier plot for specific regressor,
         stratified by predicted risk groups.
         Args:
             path_to_regressor: Path to the saved regressor model.
+            show_plot: If True, display the plot.
 
         Returns:
             None
@@ -56,12 +60,15 @@ class SurvivalBackend:
         plt.legend(title="Risk Group")
         plt.grid(True)
 
-        output_dir = Path("results/survival")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        plt.savefig(output_dir / "kaplan_meier_plot.png")
-        plt.close()
-        print(f"Kaplan-Meier plot saved to "
-              f"{output_dir / 'kaplan_meier_plot.png'}")
+        if show_plot:
+            plt.show()
+        else:
+            output_dir = Path("results/survival")
+            output_dir.mkdir(parents=True, exist_ok=True)
+            plt.savefig(output_dir / "kaplan_meier_plot.png")
+            plt.close()
+            print(f"Kaplan-Meier plot saved to "
+                  f"{output_dir / 'kaplan_meier_plot.png'}")
 
 
 @lru_cache(typed=True)
