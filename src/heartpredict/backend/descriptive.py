@@ -30,7 +30,7 @@ class BooleanStatistics:
     one: float
     
 
-class DataFrameAnalyzer:
+class DescriptiveBackend:
     def __init__(self, 
                  path_to_data: str = "data/heart_failure_clinical_records.csv") -> None:
         logging.debug("Instantiate ProjectData object")

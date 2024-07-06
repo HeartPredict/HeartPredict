@@ -1,4 +1,4 @@
-from heartpredict.backend.descriptive import DataFrameAnalyzer 
+from heartpredict.backend.descriptive import DescriptiveBackend 
 from heartpredict.backend.descriptive import DiscreteStatistics, BooleanStatistics
 import pandas as pd
 
@@ -8,7 +8,7 @@ def test_calculate_boolean_statistics():
     Test the calculate_boolean_statistics function
     from the DataFrameAnalyzer object
     """
-    actual_object = DataFrameAnalyzer()
+    actual_object = DescriptiveBackend()
     actual_boolean = actual_object.calculate_boolean_statistics("smoking")
 
     expected_len = 5000
@@ -28,7 +28,7 @@ def test_calculate_discrete_statistics():
     Test the calculate_discrete_statistics function
     from the DataFrameAnalyzer object
     """
-    actual_object = DataFrameAnalyzer()
+    actual_object = DescriptiveBackend()
     actual_discrete = actual_object.calculate_discrete_statistics("age")
 
     expected_mean = 60.288736400000005
@@ -58,7 +58,7 @@ def test_create_conditional_dataset():
     condition = original_df["col1"] <= 3
     expected_result = original_df[condition].copy()
     
-    actual_object = DataFrameAnalyzer()
+    actual_object = DescriptiveBackend()
     actual_result = actual_object.create_conditional_dataset(df=original_df,
                                                              col="col1",
                                                              num=3,
@@ -76,7 +76,7 @@ def test_save_variable_distribution():
                      "Is smoking":1559
                      }
     
-    actual_object = DataFrameAnalyzer()
+    actual_object = DescriptiveBackend()
     actual_bool = actual_object.save_variable_distribution(column="smoking")
 
     assert expected_bool["Is smoking"] == actual_bool["Is smoking"]
