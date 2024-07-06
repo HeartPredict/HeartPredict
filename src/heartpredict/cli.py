@@ -16,12 +16,12 @@ from rich import print
 from typing_extensions import Annotated
 
 
-class LogLevel(int, Enum):
-    DEBUG = 10
-    INFO = 20
-    WARNING = 30
-    ERROR = 40
-    CRITICAL = 50
+class LogLevel(str, Enum):
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
 
 
 @dataclass
@@ -41,7 +41,17 @@ def set_path(
         loglevel: LogLevel = LogLevel.INFO
 ) -> None:
     state.csv = csv
-    state.logger.setLevel(loglevel)
+
+    if loglevel == LogLevel.DEBUG:
+        state.logger.setLevel(logging.DEBUG)
+    elif loglevel == LogLevel.INFO:
+        state.logger.setLevel(logging.INFO)
+    elif loglevel == LogLevel.WARNING:
+        state.logger.setLevel(logging.WARNING)
+    elif loglevel == LogLevel.ERROR:
+        state.logger.setLevel(logging.ERROR)
+    elif loglevel == LogLevel.CRITICAL:
+        state.logger.setLevel(logging.CRITICAL)
 
 
 @app.command()

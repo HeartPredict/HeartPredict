@@ -90,6 +90,8 @@ class MLBackend:
         ]
 
         eval_metric = EvaluationMetric("Accuracy", accuracy_score, np.argmax)
+
+        logging.debug("Start training different classifiers...")
         return self._train_models(classifiers, eval_metric)
 
     def regression_for_different_regressors(self) -> OptimalModel:
@@ -121,6 +123,8 @@ class MLBackend:
             root_mean_squared_error,
             np.argmin
         )
+
+        logging.debug("Start training different regressors...")
         return self._train_models(regressors, eval_metric)
 
     def _k_fold_cross_validation(
@@ -139,6 +143,7 @@ class MLBackend:
         if hyperparam_name:
             model.set_params(**{hyperparam_name: value})
         accuracy = cross_val_score(model, self.data.train.x, self.data.train.y)
+        logging
         return accuracy.mean()
 
     def _train_w_best_hyperparam(self, model: ModelWithParams) -> TrainingResult:
