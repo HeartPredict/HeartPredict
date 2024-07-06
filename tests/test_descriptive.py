@@ -9,7 +9,7 @@ def test_calculate_boolean_statistics():
     from the DataFrameAnalyzer object
     """
     actual_object = DataFrameAnalyzer()
-    actual_boolean = actual_object.calculate_boolean_statistics(boolean_column="smoking")
+    actual_boolean = actual_object.calculate_boolean_statistics("smoking")
 
     expected_len = 5000
     expected_zero = 3441 / expected_len
@@ -29,7 +29,7 @@ def test_calculate_discrete_statistics():
     from the DataFrameAnalyzer object
     """
     actual_object = DataFrameAnalyzer()
-    actual_discrete = actual_object.calculate_discrete_statistics(discrete_column="age")
+    actual_discrete = actual_object.calculate_discrete_statistics("age")
 
     expected_mean = 60.288736400000005
     expected_std = 11.697242810508323
