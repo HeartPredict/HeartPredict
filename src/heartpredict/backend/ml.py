@@ -140,10 +140,11 @@ class MLBackend:
         Returns:
             Mean accuracy of the model.
         """
+        logging.debug(f"Start k-fold cross validation for {hyperparam_name}={value}...")
         if hyperparam_name:
             model.set_params(**{hyperparam_name: value})
         accuracy = cross_val_score(model, self.data.train.x, self.data.train.y)
-        logging
+        logging.debug(f"Hyperparameter: {hyperparam_name}={value}, Accuracy: {accuracy.mean()}")
         return accuracy.mean()
 
     def _train_w_best_hyperparam(self, model: ModelWithParams) -> TrainingResult:
@@ -155,6 +156,8 @@ class MLBackend:
         Returns:
             TrainingResult: Best performing model with the best hyperparameter.
         """
+        logging.debug(f"Start training model {type(model.model).__name__} for"
+                      f" differen hyperparameter values...")
         best_hyperparam_value = None
         if model.hyperparam_name and model.values is not None:
             scores = [
@@ -169,6 +172,8 @@ class MLBackend:
             )
 
         model.model.fit(self.data.train.x, self.data.train.y)
+        logging.debug(f"Model {type(model.model).__name__} performed best with "
+                      f"hyperparameter value: {best_hyperparam_value}")
         return TrainingResult(
             model.model,
             type(model.model).__name__,
