@@ -52,6 +52,9 @@ class SurvivalBackend:
         for group, subset in self.df.groupby('risk_group', observed=True):
             time = subset[days_column]
             event_observed = subset[death_event_column].astype(bool)
+
+            logging.debug(f"Fitting Kaplan-Meier model for group: {group}")
+
             kmf.fit(durations=time, event_observed=event_observed, label=group)
             kmf.plot_survival_function()
 
