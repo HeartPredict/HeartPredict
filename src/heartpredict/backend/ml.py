@@ -140,11 +140,13 @@ class MLBackend:
         Returns:
             Mean accuracy of the model.
         """
-        logging.debug(f"Start k-fold cross validation for {hyperparam_name}={value}...")
+        logging.debug(f"Start k-fold cross validation for "
+                      f"{hyperparam_name}={value}...")
         if hyperparam_name:
             model.set_params(**{hyperparam_name: value})
         accuracy = cross_val_score(model, self.data.train.x, self.data.train.y)
-        logging.debug(f"Hyperparameter: {hyperparam_name}={value}, Accuracy: {accuracy.mean()}")
+        logging.debug(f"Hyperparameter: {hyperparam_name}={value}, "
+                      f"Accuracy: {accuracy.mean()}")
         return accuracy.mean()
 
     def _train_w_best_hyperparam(self, model: ModelWithParams) -> TrainingResult:
