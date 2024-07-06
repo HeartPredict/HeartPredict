@@ -1,5 +1,5 @@
 import logging
-from enum import StrEnum
+from enum import Enum
 from functools import lru_cache
 
 import pandas as pd
@@ -7,7 +7,7 @@ from heartpredict.backend.data import Column, ProjectData
 from typing_extensions import Self
 
 
-class CorrelationMethod(StrEnum):
+class CorrelationMethod(str, Enum):
     PEARSON = "pearson"
     KENDALL = "kendall"
     SPEARMAN = "spearman"

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import Enum
 from functools import lru_cache
 from pathlib import Path
 
@@ -17,7 +17,7 @@ class NumpyMatrix:
     y: np.ndarray
 
 
-class Column(StrEnum):
+class Column(str, Enum):
     AGE = "age"
     ANAEMIA = "anaemia"
     CREATININE_PHOSPHOKINASE = "creatinine_phosphokinase"

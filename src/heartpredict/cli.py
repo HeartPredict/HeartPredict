@@ -1,6 +1,6 @@
 import importlib.metadata
 from dataclasses import dataclass, field
-from enum import StrEnum
+from enum import Enum
 from logging import Logger, getLogger
 from pathlib import Path
 from typing import Optional
@@ -14,7 +14,7 @@ from rich import print
 from typing_extensions import Annotated
 
 
-class LogLevel(StrEnum):
+class LogLevel(str, Enum):
     DEBUG = "DEBUG"
     INFO = "INFO"
     WARNING = "WARNING"
