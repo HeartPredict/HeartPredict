@@ -1,6 +1,7 @@
 from heartpredict.backend.data import MLData
 from heartpredict.backend.ml import load_model
 
+import logging
 import pandas as pd
 import matplotlib.pyplot as plt
 from functools import lru_cache
@@ -67,8 +68,9 @@ class SurvivalBackend:
             output_dir.mkdir(parents=True, exist_ok=True)
             plt.savefig(output_dir / "kaplan_meier_plot.png")
             plt.close()
-            print(f"Kaplan-Meier plot saved to "
-                  f"{output_dir / 'kaplan_meier_plot.png'}")
+            logging.info(
+                f"Kaplan-Meier plot saved to "
+                f"{output_dir / 'kaplan_meier_plot.png'}")
 
 
 @lru_cache(typed=True)

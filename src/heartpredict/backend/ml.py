@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import joblib
+import logging
 import numpy as np
 from heartpredict.backend.data import MLData
 from sklearn.base import BaseEstimator
@@ -185,7 +186,7 @@ class MLBackend:
 
         y_pred = training_result.model.predict(self.data.valid.x)  # type: ignore
         score = eval_metric.function(self.data.valid.y, y_pred)
-        print(
+        logging.info(
             f"Best Model for {training_result.model_name}"
             f"with {training_result.hyperparam_name}"
             f"={training_result.best_hyperparam_value}, "
@@ -222,7 +223,7 @@ class MLBackend:
 
         scores = [res.score for res in training_results]
         best_performance = eval_metric.optimum(scores)
-        print(
+        logging.info(
             f"Best Model: {type(training_results[best_performance].model).__name__} "
             f"with {eval_metric.name}: "
             f"{training_results[best_performance].score}"
