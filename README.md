@@ -1,9 +1,25 @@
-# HeartPredict
+# HeartPredict <!-- omit in toc -->
 
 ![logo](/docs/logo/logo.png)
 
 HeartPredict is a Python library designed to analyze
 and predict heart failure outcomes using patient data.
+
+- [Dataset information](#dataset-information)
+- [Key Questions to Answer with the Dataset](#key-questions-to-answer-with-the-dataset)
+  - [Descriptive Analysis](#descriptive-analysis)
+  - [Correlation and Feature Importance](#correlation-and-feature-importance)
+  - [Predictive Analysis](#predictive-analysis)
+  - [Survival Analysis](#survival-analysis)
+  - [Risk Factor Analysis](#risk-factor-analysis)
+- [Usage](#usage)
+  - [Installation](#installation)
+  - [CLI](#cli)
+  - [Docker](#docker)
+  - [Notebook](#notebook)
+- [Contributing](#contributing)
+- [Code of Conduct](#code-of-conduct)
+- [License](#license)
 
 ## Dataset information
 
@@ -49,6 +65,40 @@ and is licensed under CC0; made available under [this URL](https://www.kaggle.co
 - What is the impact of serum creatinine and serum sodium levels on patient outcomes?
 - How does the combination of multiple risk factors affect the likelihood
   of heart failure-related death?
+
+## Usage
+
+### Installation
+
+You may want to use a virtual environment to install into.
+
+```bash
+pip install git+https://github.com/HeartPredict/HeartPredict
+```
+
+### CLI
+
+Once installed, the `hp` CLI app should be available
+in your virtual environment or system.
+You can simply run `hp` to get a list of available options and commands.
+
+### Docker
+
+You can also use the CLI via docker
+by cloning the repository
+and running the following command:
+
+```bash
+docker build -t hp --rm . && docker run -it --name hp --rm hp
+```
+
+When you're done, simply exit the container with `exit`.
+
+### Notebook
+
+We also provide you with an interactive Jupyter Notebook
+that visualizes our results.
+It can be found [here](./notebook/heart_predict.ipynb).
 
 ## Contributing
 
