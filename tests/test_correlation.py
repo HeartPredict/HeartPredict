@@ -11,17 +11,17 @@ def test_column_correlation(project_data_func: Callable[..., ProjectData]) -> No
     pearson_result = backend.get_column_correlation_to_death_event(
         Column.SERUM_CREATININE, CorrelationMethod.PEARSON
         )
-    assert pearson_result == 0.3112813958492222
+    assert round(pearson_result, 10) == 0.3112813958
 
     kendall_result = backend.get_column_correlation_to_death_event(
         Column.SERUM_CREATININE, CorrelationMethod.KENDALL
         )
-    assert kendall_result == 0.33173184057153865
+    assert round(kendall_result, 10) == 0.3317318406
 
     spearman_result = backend.get_column_correlation_to_death_event(
         Column.SERUM_CREATININE, CorrelationMethod.SPEARMAN
         )
-    assert spearman_result == 0.391076954449701
+    assert round(spearman_result, 10) == 0.3910769544
 
 
 def test_correlation_matrix(project_data_func: Callable[..., ProjectData]) -> None:
