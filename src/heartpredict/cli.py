@@ -12,6 +12,7 @@ from heartpredict.backend.correlation import CorrelationBackend, CorrelationMeth
 from heartpredict.backend.data import Column, MLData, ProjectData
 from heartpredict.backend.ml import MLBackend
 from heartpredict.backend.survival import SurvivalBackend
+from heartpredict.backend.descriptive import DescriptiveBackend
 from rich import print
 from typing_extensions import Annotated
 
@@ -119,3 +120,21 @@ def multiple_correlation(
     data = ProjectData.build(Path(state.csv))
     backend = CorrelationBackend.build(data)
     print(backend.get_correlation_matrix(method))
+
+
+@app.command(name="bstat")
+def boolean_statistic(
+    bool_col: str = typer.Option("smoking", '-n', help='Name of the boolean column')
+    ) -> None:
+    descriptive = DescriptiveBackend(state.csv)
+    stats = descriptive.calculate_boolean_statistics(bool_col)
+    typer.echo(stats)
+    
+
+@app.command(name="dstat")
+def discrete_statistic(
+    disc_col: str = typer.Option("age", '-n', help='Name of the discrete column')
+    ) -> None:
+    descriptive = DescriptiveBackend(state.csv)
+    stats = descriptive.calculate_discrete_statistics(disc_col)
+    typer.echo(stats)
