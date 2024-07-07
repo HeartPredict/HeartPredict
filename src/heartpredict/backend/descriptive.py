@@ -1,9 +1,11 @@
 """Utilities for conducting a descriptive data analysis"""
+import logging
+from dataclasses import dataclass
+from typing import Optional
+
 import matplotlib.pyplot as plt
 import pandas as pd
-import logging
 from heartpredict.backend.data import ProjectData
-from dataclasses import dataclass
 
 MEANING_BINARY_COLUMNS = {
     "anaemia": {0: "No anaemia", 1: "anaemia"},
@@ -31,12 +33,9 @@ class BooleanStatistics:
     
 
 class DescriptiveBackend:
-    def __init__(self, 
-                 path_to_data: str = "data/heart_failure_clinical_records.csv") -> None:
-        logging.debug("Instantiate ProjectData object")
-        project_data = ProjectData(path_to_data)
+    def __init__(self, project_data: ProjectData) -> None:
         self.df = project_data.df
-        logging.debug("DataFrame added to DataFrameAnalyzer")
+        logging.debug("DataFrame added to DescriptiveBackend")
 
     def calculate_boolean_statistics(self, boolean_column: str) -> BooleanStatistics:
         """
@@ -56,9 +55,11 @@ class DescriptiveBackend:
         one_val = col_distribution[1] / col_size
         logging.debug("Boolean statistics calculated")
 
-        return BooleanStatistics(name=boolean_column,
-                                 zero=zero_val,
-                                 one=one_val)
+        return BooleanStatistics(
+            name=boolean_column,
+            zero=zero_val,
+            one=one_val
+        )
 
 
     def calculate_discrete_statistics(self, discrete_column: str) -> DiscreteStatistics:
@@ -80,19 +81,19 @@ class DescriptiveBackend:
         standard_dev_val = col_data.std()
         logging.debug("Discrete statistics calculated")
 
-        return DiscreteStatistics(name=discrete_column,
-                                  minimum=min_val,
-                                  maximum=max_val,
-                                  median=median_val,
-                                  mean=mean_val,
-                                  standard_dev=standard_dev_val)
+        return DiscreteStatistics(
+            name=discrete_column,
+            minimum=min_val,
+            maximum=max_val,
+            median=median_val,
+            mean=mean_val,
+            standard_dev=standard_dev_val
+        )
     
 
-    def create_conditional_dataset(self, 
-                                   col: str, 
-                                   num: int, 
-                                   rel: str,
-                                   df: pd.DataFrame = None) -> pd.DataFrame:
+    def create_conditional_dataset(
+            self, col: str, num: int, rel: str, df: Optional[pd.DataFrame] = None
+        ) -> pd.DataFrame:
         """
         Create a filtered dataset, e.g. only patients over 60
 
@@ -129,9 +130,9 @@ class DescriptiveBackend:
         return df_cond
     
 
-    def save_variable_distribution(self, 
-                                   column: str,
-                                   df: pd.DataFrame = None) -> dict:
+    def save_variable_distribution(
+            self, column: str, df: Optional[pd.DataFrame] = None
+        ) -> dict:
         """
         Save unique variable expressions of a DataFrame column in a dict
 
