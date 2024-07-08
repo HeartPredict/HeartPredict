@@ -1,29 +1,19 @@
 import importlib.metadata
-from dataclasses import dataclass, field
-from enum import Enum
-
 import logging
+from dataclasses import dataclass, field
 from logging import Logger, getLogger
 from pathlib import Path
 from typing import Optional
 
 import typer
 from heartpredict.backend.correlation import CorrelationBackend, CorrelationMethod
-from heartpredict.backend.data import Column, MLData, ProjectData, FeatureData
+from heartpredict.backend.descriptive import DescriptiveBackend
 from heartpredict.backend.ml import MLBackend, PretrainedModel
 from heartpredict.backend.survival import SurvivalBackend
-from heartpredict.backend.descriptive import DescriptiveBackend
-from heartpredict.backend.descriptive import BoolColumn, DiscreteColumn
+from heartpredict.data import FeatureData, MLData, ProjectData
+from heartpredict.enums import BoolColumn, Column, DiscreteColumn, LogLevel
 from rich import print
 from typing_extensions import Annotated
-
-
-class LogLevel(str, Enum):
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    CRITICAL = "CRITICAL"
 
 
 @dataclass
@@ -92,7 +82,7 @@ def predict_death_event(
             str, typer.Option(help="Path to pretrained classifier model.")
         ],
         scaler: Annotated[
-            Optional[str], typer.Option(help="Path to scaler model.")
+            str, typer.Option(help="Path to scaler model.")
         ] = "results/scalers/used_scaler.joblib",
 ) -> None:
     project_data = ProjectData.build(Path(state.csv))
@@ -144,21 +134,19 @@ def multiple_correlation(
 
 @app.command(name="bstat")
 def boolean_statistic(
-        bool_col: Annotated[BoolColumn, ...]
+        bool_col: Annotated[BoolColumn, typer.Option()]
 ) -> None:
-    if not isinstance(bool_col, BoolColumn):
-        raise ValueError("Input should be boolean column")
-    descriptive = DescriptiveBackend(state.csv)
+    data = ProjectData.build(state.csv)
+    descriptive = DescriptiveBackend(data)
     stats = descriptive.calculate_boolean_statistics(bool_col)
     print(stats)
 
 
 @app.command(name="dstat")
 def discrete_statistic(
-        disc_col: Annotated[DiscreteColumn, ...]
+        disc_col: Annotated[DiscreteColumn, typer.Option()]
 ) -> None:
-    if not isinstance(disc_col, DiscreteColumn):
-        raise ValueError("Input should be discrete column")
-    descriptive = DescriptiveBackend(state.csv)
+    data = ProjectData.build(state.csv)
+    descriptive = DescriptiveBackend(data)
     stats = descriptive.calculate_discrete_statistics(disc_col)
     print(stats)

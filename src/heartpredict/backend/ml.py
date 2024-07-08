@@ -6,7 +6,7 @@ from typing import Any
 import joblib
 import logging
 import numpy as np
-from heartpredict.backend.data import MLData, FeatureData
+from heartpredict.data import MLData, FeatureData
 from sklearn.base import BaseEstimator
 from sklearn.discriminant_analysis import (
     LinearDiscriminantAnalysis,
