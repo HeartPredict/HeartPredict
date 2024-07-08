@@ -1,7 +1,8 @@
 from typing import Callable
 
 from heartpredict.backend.correlation import CorrelationBackend, CorrelationMethod
-from heartpredict.backend.data import Column, ProjectData
+from heartpredict.data import ProjectData
+from heartpredict.enums import Column
 
 
 def test_column_correlation(project_data_func: Callable[..., ProjectData]) -> None:

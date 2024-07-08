@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Callable
 
 import pytest
-from heartpredict.backend.data import MLData, ProjectData, FeatureData
+from heartpredict.data import MLData, ProjectData, FeatureData
 
 
 @pytest.fixture

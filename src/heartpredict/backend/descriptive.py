@@ -2,39 +2,21 @@
 import logging
 from dataclasses import dataclass
 from typing import Optional
-from enum import Enum
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from heartpredict.backend.data import ProjectData
-
-
-class BoolColumn(str, Enum):
-    ANAEMIA = "anaemia"
-    DIABETES = "diabetes"
-    HIGH_BLOOD_PRESSURE = "high_blood_pressure"
-    SEX = "sex"
-    SMOKING = "smoking"
-    DEATH_EVENT = "DEATCH_EVENT"
-
-
-class DiscreteColumn(str, Enum):
-    AGE = "age"
-    CREATININE_PHOSPHOKINASE = "creatinine_phosphokinase"
-    EJECTION_FRACTION = "ejection_fraction"
-    PLATELETS = "platelets"
-    SERUM_CREATININE = "serum_creatinine"
-    SERUM_SODIUM = "serum_sodium"
-    TIME = "time"
-
+from heartpredict.data import ProjectData
+from heartpredict.enums import BoolColumn, Column
 
 MEANING_BINARY_COLUMNS = {
-    "anaemia": {0: "No anaemia", 1: "anaemia"},
-    "diabetes": {0: "No diabetes", 1: "diabetes"},
-    "high_blood_pressure": {0: "Normal blood pressure", 1: "High blood pressure"},
-    "sex": {0: "Female", 1: "Male"},
-    "smoking": {0: "Not smoking", 1: "Is smoking"},
-    "DEATH_EVENT": {0: "Survived", 1: "Died"},
+    BoolColumn.ANAEMIA: {0: "No anaemia", 1: "anaemia"},
+    BoolColumn.DIABETES: {0: "No diabetes", 1: "diabetes"},
+    BoolColumn.HIGH_BLOOD_PRESSURE: {
+        0: "Normal blood pressure", 1: "High blood pressure"
+        },
+    BoolColumn.SEX: {0: "Female", 1: "Male"},
+    BoolColumn.SMOKING: {0: "Not smoking", 1: "Is smoking"},
+    BoolColumn.DEATH_EVENT: {0: "Survived", 1: "Died"},
 }
 
 
@@ -154,7 +136,7 @@ class DescriptiveBackend:
     
 
     def save_variable_distribution(
-            self, column: str, df: Optional[pd.DataFrame] = None
+            self, column: Column, df: Optional[pd.DataFrame] = None
         ) -> dict:
         """
         Save unique variable expressions of a DataFrame column in a dict
@@ -177,7 +159,7 @@ class DescriptiveBackend:
         if condition:
             logging.debug("Interpret Boolean distribution")
             interpreted_distribution = {}
-            bool_meaning = MEANING_BINARY_COLUMNS[column]
+            bool_meaning = MEANING_BINARY_COLUMNS[column]   # type: ignore
             distribution = df[column].value_counts().to_dict()
             for num in distribution.keys():
                 interpreted_distribution[bool_meaning[num]] = distribution[num]

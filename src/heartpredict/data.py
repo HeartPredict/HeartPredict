@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from enum import Enum
 from functools import lru_cache
 from pathlib import Path
 
@@ -15,22 +14,6 @@ from typing_extensions import Self
 class NumpyMatrix:
     x: np.ndarray
     y: np.ndarray
-
-
-class Column(str, Enum):
-    AGE = "age"
-    ANAEMIA = "anaemia"
-    CREATININE_PHOSPHOKINASE = "creatinine_phosphokinase"
-    DIABETES = "diabetes"
-    EJECTION_FRACTION = "ejection_fraction"
-    HIGH_BLOOD_PRESSURE = "high_blood_pressure"
-    PLATELETS = "platelets"
-    SERUM_CREATININE = "serum_creatinine"
-    SERUM_SODIUM = "serum_sodium"
-    SEX = "sex"
-    SMOKING = "smoking"
-    TIME = "time"
-    DEATH_EVENT = "DEATH_EVENT"
 
 
 class ProjectData:

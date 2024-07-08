@@ -1,8 +1,13 @@
-from heartpredict.backend.descriptive import DescriptiveBackend 
-from heartpredict.backend.descriptive import DiscreteStatistics, BooleanStatistics
-import pandas as pd
 from typing import Callable
-from heartpredict.backend.data import ProjectData
+
+import pandas as pd
+from heartpredict.backend.descriptive import (
+    BooleanStatistics,
+    DescriptiveBackend,
+    DiscreteStatistics,
+)
+from heartpredict.data import ProjectData
+from heartpredict.enums import Column
 
 
 def test_calculate_boolean_statistics(
@@ -95,7 +100,7 @@ def test_save_variable_distribution(
                      }
     
     actual_object = DescriptiveBackend(project_data)
-    actual_bool = actual_object.save_variable_distribution(column="smoking")
+    actual_bool = actual_object.save_variable_distribution(Column.SMOKING)
 
     assert expected_bool["Is smoking"] == actual_bool["Is smoking"]
     assert expected_bool["Not smoking"] == actual_bool["Not smoking"]

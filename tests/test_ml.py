@@ -1,7 +1,7 @@
 from typing import Callable
 
 import pytest
-from heartpredict.backend.data import MLData, FeatureData
+from heartpredict.data import MLData, FeatureData
 from heartpredict.backend.ml import MLBackend, PretrainedModel
 
 from sklearn.metrics import root_mean_squared_error

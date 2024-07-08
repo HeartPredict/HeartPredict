@@ -1,16 +1,10 @@
 import logging
-from enum import Enum
 from functools import lru_cache
 
 import pandas as pd
-from heartpredict.backend.data import Column, ProjectData
+from heartpredict.data import ProjectData
+from heartpredict.enums import Column, CorrelationMethod
 from typing_extensions import Self
-
-
-class CorrelationMethod(str, Enum):
-    PEARSON = "pearson"
-    KENDALL = "kendall"
-    SPEARMAN = "spearman"
 
 
 class CorrelationBackend:
