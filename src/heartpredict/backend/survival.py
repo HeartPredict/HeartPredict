@@ -1,4 +1,4 @@
-from heartpredict.backend.data import MLData
+from heartpredict.data import MLData
 from heartpredict.backend.ml import PretrainedModel
 
 import logging

@@ -1,5 +1,5 @@
 from heartpredict.backend.survival import SurvivalBackend
-from heartpredict.backend.data import MLData
+from heartpredict.data import MLData
 
 from typing import Callable
 from pathlib import Path

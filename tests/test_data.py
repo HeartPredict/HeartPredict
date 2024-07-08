@@ -1,6 +1,6 @@
 from typing import Callable
 
-from heartpredict.backend.data import MLData
+from heartpredict.data import MLData
 
 
 def test_raw_ml_matrices(ml_data_func: Callable[..., MLData]) -> None:
