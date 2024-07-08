@@ -1,5 +1,5 @@
 from heartpredict.backend.data import MLData
-from heartpredict.backend.ml import load_model
+from heartpredict.backend.ml import PretrainedModel
 
 import logging
 import pandas as pd
@@ -14,6 +14,7 @@ class SurvivalBackend:
     def __init__(self, ml_data: MLData) -> None:
         self.df = pd.DataFrame(ml_data.project_data.df)
         self.feature_matrix = ml_data.scaled_feature_matrix
+        self.model = PretrainedModel()
 
     def create_kaplan_meier_plot_for(self,
                                      path_to_regressor: Path,
@@ -29,13 +30,13 @@ class SurvivalBackend:
         Returns:
             None
         """
-        regressor = load_model(path_to_regressor)
+        self.model.load_model(path_to_regressor)
 
         days_column = self.df.columns[-2]
         death_event_column = self.df.columns[-1]
 
         # Predict probabilities of a death event.
-        self.df['death_event_prob'] = regressor.predict_proba(
+        self.df['death_event_prob'] = self.model.model.predict_proba(
             self.feature_matrix)[:, 1]
 
         # Stratify data based on predicted probabilities.

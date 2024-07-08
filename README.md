@@ -48,16 +48,11 @@ and is licensed under CC0; made available under [this URL](https://www.kaggle.co
 
 - How accurately can we predict DEATH_EVENT using clinical features?
 - Which machine learning model performs best for this prediction task?
-  (We can use DecisionTrees, RandomForest or other classifiers) Let us use scikit-learn
-- How do different models compare in terms of accuracy, precision, recall
-  and other metrics?
 
 ### Survival Analysis
 
-- What is the survival rate of patients over the follow-up period?
-- How do survival rates vary with different clinical features
-  (e.g., age, ejection fraction)?
-- Can we identify patient subgroups with higher or lower survival probabilities?
+- Can we identify patient subgroups with higher or lower survival probabilities? 
+- And what is the survival rate of patients over the follow-up period?
 
 ### Risk Factor Analysis
 
