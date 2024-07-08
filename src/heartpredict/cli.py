@@ -13,6 +13,7 @@ from heartpredict.backend.data import Column, MLData, ProjectData
 from heartpredict.backend.ml import MLBackend
 from heartpredict.backend.survival import SurvivalBackend
 from heartpredict.backend.descriptive import DescriptiveBackend
+from heartpredict.backend.descriptive import BoolColumn, DiscreteColumn 
 from rich import print
 from typing_extensions import Annotated
 
@@ -124,17 +125,21 @@ def multiple_correlation(
 
 @app.command(name="bstat")
 def boolean_statistic(
-    bool_col: str = typer.Option("smoking", '-n', help='Name of the boolean column')
+    bool_col: Annotated[BoolColumn, ...]
     ) -> None:
+    if not isinstance(bool_col, BoolColumn):
+        raise ValueError("Input should be boolean column")
     descriptive = DescriptiveBackend(state.csv)
     stats = descriptive.calculate_boolean_statistics(bool_col)
-    typer.echo(stats)
-    
+    print(stats)
+
 
 @app.command(name="dstat")
 def discrete_statistic(
-    disc_col: str = typer.Option("age", '-n', help='Name of the discrete column')
+    disc_col: Annotated[DiscreteColumn, ...]
     ) -> None:
+    if not isinstance(disc_col, DiscreteColumn):
+        raise ValueError("Input should be discrete column")
     descriptive = DescriptiveBackend(state.csv)
     stats = descriptive.calculate_discrete_statistics(disc_col)
-    typer.echo(stats)
+    print(stats)

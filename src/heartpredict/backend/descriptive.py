@@ -2,10 +2,31 @@
 import logging
 from dataclasses import dataclass
 from typing import Optional
+from enum import Enum
 
 import matplotlib.pyplot as plt
 import pandas as pd
 from heartpredict.backend.data import ProjectData
+
+
+class BoolColumn(str, Enum):
+    ANAEMIA = "anaemia"
+    DIABETES = "diabetes"
+    HIGH_BLOOD_PRESSURE = "high_blood_pressure"
+    SEX = "sex"
+    SMOKING = "smoking"
+    DEATH_EVENT = "DEATCH_EVENT"
+
+
+class DiscreteColumn(str, Enum):
+    AGE = "age"
+    CREATININE_PHOSPHOKINASE = "creatinine_phosphokinase"
+    EJECTION_FRACTION = "ejection_fraction"
+    PLATELETS = "platelets"
+    SERUM_CREATININE = "serum_creatinine"
+    SERUM_SODIUM = "serum_sodium"
+    TIME = "time"
+
 
 MEANING_BINARY_COLUMNS = {
     "anaemia": {0: "No anaemia", 1: "anaemia"},
@@ -16,6 +37,7 @@ MEANING_BINARY_COLUMNS = {
     "DEATH_EVENT": {0: "Survived", 1: "Died"},
 }
 
+
 @dataclass
 class DiscreteStatistics:
     name: str
@@ -24,6 +46,7 @@ class DiscreteStatistics:
     median: float
     mean: float
     standard_dev: float
+
 
 @dataclass
 class BooleanStatistics:
