@@ -12,6 +12,8 @@ from heartpredict.backend.correlation import CorrelationBackend, CorrelationMeth
 from heartpredict.backend.data import Column, MLData, ProjectData
 from heartpredict.backend.ml import MLBackend
 from heartpredict.backend.survival import SurvivalBackend
+from heartpredict.backend.descriptive import DescriptiveBackend
+from heartpredict.backend.descriptive import BoolColumn, DiscreteColumn 
 from rich import print
 from typing_extensions import Annotated
 
@@ -119,3 +121,25 @@ def multiple_correlation(
     data = ProjectData.build(Path(state.csv))
     backend = CorrelationBackend.build(data)
     print(backend.get_correlation_matrix(method))
+
+
+@app.command(name="bstat")
+def boolean_statistic(
+    bool_col: Annotated[BoolColumn, ...]
+    ) -> None:
+    if not isinstance(bool_col, BoolColumn):
+        raise ValueError("Input should be boolean column")
+    descriptive = DescriptiveBackend(state.csv)
+    stats = descriptive.calculate_boolean_statistics(bool_col)
+    print(stats)
+
+
+@app.command(name="dstat")
+def discrete_statistic(
+    disc_col: Annotated[DiscreteColumn, ...]
+    ) -> None:
+    if not isinstance(disc_col, DiscreteColumn):
+        raise ValueError("Input should be discrete column")
+    descriptive = DescriptiveBackend(state.csv)
+    stats = descriptive.calculate_discrete_statistics(disc_col)
+    print(stats)
