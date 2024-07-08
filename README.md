@@ -7,16 +7,16 @@ and predict heart failure outcomes using patient data.
 
 - [Dataset information](#dataset-information)
 - [Key Questions to Answer with the Dataset](#key-questions-to-answer-with-the-dataset)
-  - [Descriptive Analysis](#descriptive-analysis)
-  - [Correlation and Feature Importance](#correlation-and-feature-importance)
-  - [Predictive Analysis](#predictive-analysis)
-  - [Survival Analysis](#survival-analysis)
-  - [Risk Factor Analysis](#risk-factor-analysis)
+    - [Descriptive Analysis](#descriptive-analysis)
+    - [Correlation and Feature Importance](#correlation-and-feature-importance)
+    - [Predictive Analysis](#predictive-analysis)
+    - [Survival Analysis](#survival-analysis)
+    - [Risk Factor Analysis](#risk-factor-analysis)
 - [Usage](#usage)
-  - [Installation](#installation)
-  - [CLI](#cli)
-  - [Docker](#docker)
-  - [Notebook](#notebook)
+    - [Installation](#installation)
+    - [CLI](#cli)
+    - [Docker](#docker)
+    - [Notebook](#notebook)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
 - [License](#license)
@@ -25,7 +25,8 @@ and predict heart failure outcomes using patient data.
 
 The dataset used for this analysis was obtained from kaggle.com.
 It contains 5000 medical records of patients who had heart-failure
-and is licensed under CC0; made available under [this URL](https://www.kaggle.com/datasets/aadarshvelu/heart-failure-prediction-clinical-records).
+and is licensed under CC0; made available
+under [this URL](https://www.kaggle.com/datasets/aadarshvelu/heart-failure-prediction-clinical-records).
 
 ## Key Questions to Answer with the Dataset
 
@@ -51,8 +52,10 @@ and is licensed under CC0; made available under [this URL](https://www.kaggle.co
 
 ### Survival Analysis
 
-- Can we identify patient subgroups with higher or lower survival probabilities? 
-- And what is the survival rate of patients over the follow-up period?
+- Can we identify patient subgroups with higher or
+  lower survival probabilities?
+- And what is the survival rate of patients over
+  the follow-up period?
 
 ### Risk Factor Analysis
 

@@ -18,13 +18,17 @@ def test_load_pretrained_classifiers_seed_42(
     pretrained_model.load_model(
         f"{model_dir}/DecisionTreeClassifier_model_{data.random_seed}.joblib"
     )
-    assert pretrained_model.model.score(data.valid.x, data.valid.y) == best_decision_tree_score
+    assert pretrained_model.model.score(
+        data.valid.x, data.valid.y
+    ) == best_decision_tree_score
 
     best_random_forest_score = 0.992
     pretrained_model.load_model(
         f"{model_dir}/RandomForestClassifier_model_{data.random_seed}.joblib"
     )
-    assert pretrained_model.model.score(data.valid.x, data.valid.y) == best_random_forest_score
+    assert pretrained_model.model.score(
+        data.valid.x, data.valid.y
+    ) == best_random_forest_score
 
     best_knn_score = 0.977
     pretrained_model.load_model(
