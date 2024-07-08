@@ -9,11 +9,11 @@ from typing import Optional
 
 import typer
 from heartpredict.backend.correlation import CorrelationBackend, CorrelationMethod
-from heartpredict.backend.data import Column, MLData, ProjectData
-from heartpredict.backend.ml import MLBackend
+from heartpredict.backend.data import Column, MLData, ProjectData, FeatureData
+from heartpredict.backend.ml import MLBackend, PretrainedModel
 from heartpredict.backend.survival import SurvivalBackend
 from heartpredict.backend.descriptive import DescriptiveBackend
-from heartpredict.backend.descriptive import BoolColumn, DiscreteColumn 
+from heartpredict.backend.descriptive import BoolColumn, DiscreteColumn
 from rich import print
 from typing_extensions import Annotated
 
@@ -66,7 +66,7 @@ def test() -> None:
     print("test successful")
 
 
-@app.command()
+@app.command(name="train_classification")
 def train_model_for_classification(
         seed: Annotated[int, typer.Option(help="Random seed for reproducibility.")] = 42
 ) -> None:
@@ -76,7 +76,7 @@ def train_model_for_classification(
     backend.classification_for_different_classifiers()
 
 
-@app.command()
+@app.command(name="train_regression")
 def train_model_for_regression(
         seed: Annotated[int, typer.Option(help="Random seed for reproducibility.")] = 42
 ) -> None:
@@ -86,7 +86,26 @@ def train_model_for_regression(
     backend.regression_for_different_regressors()
 
 
-@app.command()
+@app.command(name="predict_death_event")
+def predict_death_event(
+        model: Annotated[
+            str, typer.Option(help="Path to pretrained classifier model.")
+        ],
+        scaler: Annotated[
+            Optional[str], typer.Option(help="Path to scaler model.")
+        ] = "results/scalers/used_scaler.joblib",
+) -> None:
+    project_data = ProjectData.build(Path(state.csv))
+    if "DEATH_EVENT" in project_data.df.columns:
+        raise ValueError("DEATH_EVENT column should not be present in the dataset")
+    feature_data = FeatureData.build(project_data, Path(scaler))
+    pretrained_model = PretrainedModel()
+    pretrained_model.load_model(Path(model))
+    pretrained_model.predict_death_event(feature_data)
+
+
+
+@app.command(name="kmplot")
 def create_kaplan_meier_plot(
         seed: Annotated[
             int, typer.Option(help="Random seed for reproducibility.")
@@ -125,8 +144,8 @@ def multiple_correlation(
 
 @app.command(name="bstat")
 def boolean_statistic(
-    bool_col: Annotated[BoolColumn, ...]
-    ) -> None:
+        bool_col: Annotated[BoolColumn, ...]
+) -> None:
     if not isinstance(bool_col, BoolColumn):
         raise ValueError("Input should be boolean column")
     descriptive = DescriptiveBackend(state.csv)
@@ -136,8 +155,8 @@ def boolean_statistic(
 
 @app.command(name="dstat")
 def discrete_statistic(
-    disc_col: Annotated[DiscreteColumn, ...]
-    ) -> None:
+        disc_col: Annotated[DiscreteColumn, ...]
+) -> None:
     if not isinstance(disc_col, DiscreteColumn):
         raise ValueError("Input should be discrete column")
     descriptive = DescriptiveBackend(state.csv)

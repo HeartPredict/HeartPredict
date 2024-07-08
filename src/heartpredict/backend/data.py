@@ -43,6 +43,33 @@ class ProjectData:
         return cls(csv)
 
 
+class FeatureData:
+    def __init__(
+            self, project_data: ProjectData,
+            scaler: Path
+    ) -> None:
+        self.project_data = project_data
+        self.scaler = joblib.load(scaler)
+
+        self.feature_matrix = self._get_feature_matrix()
+
+    @classmethod
+    @lru_cache
+    def build(
+            cls, project_data: ProjectData, scaler: Path
+    ) -> Self:
+        return cls(project_data, scaler)
+
+    def _get_feature_matrix(self) -> np.ndarray:
+        """
+        Prepare the feature matrix.
+        Returns:
+            Feature matrix as NumpyMatrix.
+        """
+        x = self.project_data.df.values
+        return self.scaler.transform(x)
+
+
 class MLData:
     def __init__(
             self, project_data: ProjectData, test_size: float, random_seed: int

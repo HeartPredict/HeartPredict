@@ -6,7 +6,7 @@ from typing import Any
 import joblib
 import logging
 import numpy as np
-from heartpredict.backend.data import MLData
+from heartpredict.backend.data import MLData, FeatureData
 from sklearn.base import BaseEstimator
 from sklearn.discriminant_analysis import (
     LinearDiscriminantAnalysis,
@@ -264,16 +264,37 @@ class MLBackend:
         return int(np.sqrt(self.data.train.x.shape[0]))
 
 
-def load_model(model_file) -> Any:
-    """
-    Load the trained model.
-    Args:
-        model_file: Path to the model file.
+class PretrainedModel:
+    def __init__(self) -> None:
+        self.model = None
 
-    Returns:
-        Loaded model.
-    """
-    return joblib.load(model_file)
+    def load_model(self, model_file) -> Any:
+        """
+        Load the trained model.
+        Args:
+            model_file: Path to the model file.
+
+        Returns:
+            Loaded model.
+        """
+        logging.debug(f"Loading model from {model_file}")
+        self.model = joblib.load(model_file)
+
+    def predict_death_event(self, feature_data: FeatureData) -> np.array:
+        """
+        Predict the death event.
+        Args:
+            feature_data: FeatureData instance.
+
+        Returns:
+            Predicted death event.
+        """
+        prediction = self.model.predict(feature_data.feature_matrix)
+        idx = 0
+        for y in prediction:
+            logging.info(f"x{idx}: {y}")
+            idx += 1
+        return prediction
 
 
 @lru_cache(typed=True)
