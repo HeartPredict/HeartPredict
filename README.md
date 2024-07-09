@@ -7,16 +7,16 @@ and predict heart failure outcomes using patient data.
 
 - [Dataset information](#dataset-information)
 - [Key Questions to Answer with the Dataset](#key-questions-to-answer-with-the-dataset)
-    - [Descriptive Analysis](#descriptive-analysis)
-    - [Correlation and Feature Importance](#correlation-and-feature-importance)
-    - [Predictive Analysis](#predictive-analysis)
-    - [Survival Analysis](#survival-analysis)
-    - [Risk Factor Analysis](#risk-factor-analysis)
+  - [Descriptive Analysis](#descriptive-analysis)
+  - [Correlation and Feature Importance](#correlation-and-feature-importance)
+  - [Predictive Analysis](#predictive-analysis)
+  - [Survival Analysis](#survival-analysis)
+  - [Risk Factor Analysis](#risk-factor-analysis)
 - [Usage](#usage)
-    - [Installation](#installation)
-    - [CLI](#cli)
-    - [Docker](#docker)
-    - [Notebook](#notebook)
+  - [Installation](#installation)
+  - [CLI](#cli)
+  - [Docker](#docker)
+  - [Notebook](#notebook)
 - [Contributing](#contributing)
 - [Code of Conduct](#code-of-conduct)
 - [License](#license)
@@ -61,8 +61,6 @@ under [this URL](https://www.kaggle.com/datasets/aadarshvelu/heart-failure-predi
 
 - How does smoking affect the risk of death in heart failure patients?
 - What is the impact of serum creatinine and serum sodium levels on patient outcomes?
-- How does the combination of multiple risk factors affect the likelihood
-  of heart failure-related death?
 
 ## Usage
 

@@ -30,3 +30,6 @@ Ideally, the library should be...
 
 - user-friendly
 - performant
+- intuitive
+- robust / not error-prone
+- erring elegantly and usefully
